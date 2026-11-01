@@ -19,7 +19,13 @@ swift test
 TZ=America/Chicago swift test
 ```
 
-The API key is passed to `FREDClient(apiKey:)`. Don't commit it.
+To also call the real API, which needs a [free FRED key](https://fred.stlouisfed.org/docs/api/api_key.html):
+
+```bash
+FRED_API_KEY=your_key swift test --filter LiveFREDTests
+```
+
+The app reads its key from `Config/Secrets.xcconfig`, which git ignores. Copy `Config/Secrets.example.xcconfig` to get started. The key is built into the app's `Info.plist`, which is fine for a demo but can be extracted from a shipped app.
 
 ## Offline behavior
 

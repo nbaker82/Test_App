@@ -31,6 +31,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		ED6A81AB308D7AFA00AAF060 /* App.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = App.xcconfig; sourceTree = "<group>"; };
+		ED6A81AC308D7AFA00AAF060 /* Secrets.example.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secrets.example.xcconfig; sourceTree = "<group>"; };
+		ED6A81AD308D7AFA00AAF060 /* AppInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = AppInfo.plist; sourceTree = "<group>"; };
 		ED6A8174308D7AF800AAF060 /* Test_Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Test_Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED6A8181308D7AFA00AAF060 /* Test_ProjectTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test_ProjectTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED6A818B308D7AFA00AAF060 /* Test_ProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = Test_ProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -89,8 +92,19 @@
 				ED6A8176308D7AF800AAF060 /* Test_Project */,
 				ED6A8184308D7AFA00AAF060 /* Test_ProjectTests */,
 				ED6A818E308D7AFA00AAF060 /* Test_ProjectUITests */,
+				ED6A81AA308D7AFA00AAF060 /* Config */,
 				ED6A8175308D7AF800AAF060 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		ED6A81AA308D7AFA00AAF060 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				ED6A81AB308D7AFA00AAF060 /* App.xcconfig */,
+				ED6A81AC308D7AFA00AAF060 /* Secrets.example.xcconfig */,
+				ED6A81AD308D7AFA00AAF060 /* AppInfo.plist */,
+			);
+			path = Config;
 			sourceTree = "<group>";
 		};
 		ED6A8175308D7AF800AAF060 /* Products */ = {
@@ -408,7 +422,9 @@
 		};
 		ED6A8196308D7AFA00AAF060 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED6A81AB308D7AFA00AAF060 /* App.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = Config/AppInfo.plist;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
@@ -439,7 +455,9 @@
 		};
 		ED6A8197308D7AFA00AAF060 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED6A81AB308D7AFA00AAF060 /* App.xcconfig */;
 			buildSettings = {
+				INFOPLIST_FILE = Config/AppInfo.plist;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
