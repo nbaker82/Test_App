@@ -1,0 +1,6 @@
+.DS_Store
+xcuserdata/
+DerivedData/
+
+# Holds the FRED API key. See Config/Secrets.example.xcconfig.
+Config/Secrets.xcconfig

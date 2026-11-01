@@ -6,6 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		ED6A81A1308D7AFA00AAF060 /* Core in Frameworks */ = {isa = PBXBuildFile; productRef = ED6A81A5308D7AFA00AAF060 /* Core */; };
+		ED6A81A2308D7AFA00AAF060 /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = ED6A81A6308D7AFA00AAF060 /* Networking */; };
+		ED6A81A3308D7AFA00AAF060 /* Repository in Frameworks */ = {isa = PBXBuildFile; productRef = ED6A81A7308D7AFA00AAF060 /* Repository */; };
+		ED6A81A4308D7AFA00AAF060 /* Persistence in Frameworks */ = {isa = PBXBuildFile; productRef = ED6A81A8308D7AFA00AAF060 /* Persistence */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		ED6A8182308D7AFA00AAF060 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -52,6 +59,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED6A81A1308D7AFA00AAF060 /* Core in Frameworks */,
+				ED6A81A2308D7AFA00AAF060 /* Networking in Frameworks */,
+				ED6A81A3308D7AFA00AAF060 /* Repository in Frameworks */,
+				ED6A81A4308D7AFA00AAF060 /* Persistence in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +123,10 @@
 			);
 			name = Test_Project;
 			packageProductDependencies = (
+				ED6A81A5308D7AFA00AAF060 /* Core */,
+				ED6A81A6308D7AFA00AAF060 /* Networking */,
+				ED6A81A7308D7AFA00AAF060 /* Repository */,
+				ED6A81A8308D7AFA00AAF060 /* Persistence */,
 			);
 			productName = Test_Project;
 			productReference = ED6A8174308D7AF800AAF060 /* Test_Project.app */;
@@ -195,6 +210,9 @@
 			);
 			mainGroup = ED6A816B308D7AF800AAF060;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				ED6A81A9308D7AFA00AAF060 /* XCLocalSwiftPackageReference "CommodityTracker" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = ED6A8175308D7AF800AAF060 /* Products */;
 			projectDirPath = "";
@@ -570,6 +588,32 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		ED6A81A9308D7AFA00AAF060 /* XCLocalSwiftPackageReference "CommodityTracker" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = CommodityTracker;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		ED6A81A5308D7AFA00AAF060 /* Core */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Core;
+		};
+		ED6A81A6308D7AFA00AAF060 /* Networking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Networking;
+		};
+		ED6A81A7308D7AFA00AAF060 /* Repository */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Repository;
+		};
+		ED6A81A8308D7AFA00AAF060 /* Persistence */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Persistence;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = ED6A816C308D7AF800AAF060 /* Project object */;
 }

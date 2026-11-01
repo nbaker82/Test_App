@@ -1,0 +1,46 @@
+{
+    "realtime_start": "2026-10-23",
+    "realtime_end": "2026-10-23",
+    "observation_start": "1600-01-01",
+    "observation_end": "9999-12-31",
+    "units": "lin",
+    "output_type": 1,
+    "file_type": "json",
+    "order_by": "observation_date",
+    "sort_order": "desc",
+    "count": 561,
+    "offset": 0,
+    "limit": 5,
+    "observations": [
+        {
+            "realtime_start": "2026-10-23",
+            "realtime_end": "2026-10-23",
+            "date": "2026-09-01",
+            "value": "236.9161241071429"
+        },
+        {
+            "realtime_start": "2026-10-23",
+            "realtime_end": "2026-10-23",
+            "date": "2026-08-01",
+            "value": "221.3034955803572"
+        },
+        {
+            "realtime_start": "2026-10-23",
+            "realtime_end": "2026-10-23",
+            "date": "2026-07-01",
+            "value": "213.1901539821428"
+        },
+        {
+            "realtime_start": "2026-10-23",
+            "realtime_end": "2026-10-23",
+            "date": "2026-06-01",
+            "value": "195.7818789965986"
+        },
+        {
+            "realtime_start": "2026-10-23",
+            "realtime_end": "2026-10-23",
+            "date": "2026-05-01",
+            "value": "215.6206469812925"
+        }
+    ]
+}
