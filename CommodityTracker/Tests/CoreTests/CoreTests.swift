@@ -65,6 +65,15 @@ private func utcDate(_ year: Int, _ month: Int, _ day: Int) -> Date {
         #expect(PriceFormatting.axisDate(date, span: 5 * 365 * day, locale: usLocale) == "2026")
     }
 
+    @Test func compactAxisLabelsDropTheYearOnlyWhenItWouldBeRedundant() {
+        let date = utcDate(2026, 9, 1)
+        let day: TimeInterval = 24 * 60 * 60
+
+        #expect(PriceFormatting.axisDate(date, span: 365 * day, isCompact: true, locale: usLocale) == "Sep")
+        #expect(PriceFormatting.axisDate(date, span: 31 * day, isCompact: true, locale: usLocale) == "Sep 1")
+        #expect(PriceFormatting.axisDate(date, span: 5 * 365 * day, isCompact: true, locale: usLocale) == "2026")
+    }
+
     @Test func dailyDateIncludesTheDay() {
         #expect(PriceFormatting.date(utcDate(2026, 10, 27), frequency: .daily, locale: usLocale) == "Oct 27, 2026")
     }

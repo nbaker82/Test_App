@@ -45,6 +45,21 @@ public final class PriceDetailModel {
         isUpdating = false
     }
 
+    /// A spoken version of the chart: "Up 15.4%, from $205.30 to $236.92".
+    func chartSummary(locale: Locale) -> String {
+        guard let first = points.first?.observation.value, let last = points.last?.observation.value else {
+            return ""
+        }
+        let lastPrice = PriceFormatting.price(last, locale: locale)
+        guard let change else { return lastPrice }
+
+        let firstPrice = PriceFormatting.price(first, locale: locale)
+        let percent = abs(change.fraction).formatted(.percent.precision(.fractionLength(1)).locale(locale))
+        return change.isUp
+            ? String(localized: "Up \(percent), from \(firstPrice) to \(lastPrice)", bundle: .module, locale: locale)
+            : String(localized: "Down \(percent), from \(firstPrice) to \(lastPrice)", bundle: .module, locale: locale)
+    }
+
     func point(nearest date: Date) -> ChartPoint? {
         points.min { abs($0.date.timeIntervalSince(date)) < abs($1.date.timeIntervalSince(date)) }
     }

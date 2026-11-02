@@ -16,7 +16,11 @@ let package = Package(
         .target(name: "Networking", dependencies: ["Core"]),
         .target(name: "Repository", dependencies: ["Core"]),
         .target(name: "Persistence", dependencies: ["Core"]),
-        .target(name: "PriceListFeature", dependencies: ["Core", "Repository"]),
+        .target(
+            name: "PriceListFeature",
+            dependencies: ["Core", "Repository"],
+            resources: [.process("Resources")]
+        ),
         .testTarget(name: "CoreTests", dependencies: ["Core"]),
         .testTarget(
             name: "NetworkingTests",

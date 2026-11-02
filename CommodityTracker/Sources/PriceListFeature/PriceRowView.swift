@@ -8,11 +8,11 @@ struct PriceRowView: View {
     var body: some View {
         // Side by side runs out of room at the largest text sizes.
         let layout = dynamicTypeSize.isAccessibilitySize
-            ? AnyLayout(VStackLayout(alignment: .leading, spacing: 8))
-            : AnyLayout(HStackLayout(alignment: .center, spacing: 12))
+            ? AnyLayout(VStackLayout(alignment: .leading, spacing: PriceSpacing.medium))
+            : AnyLayout(HStackLayout(alignment: .center, spacing: PriceSpacing.large))
 
         layout {
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: PriceSpacing.tight) {
                 Text(row.commodity.name)
                     .font(.headline)
                 Text(row.commodity.unit)
@@ -30,7 +30,7 @@ struct PriceRowView: View {
             PriceRowStateView(state: row.state, frequency: row.commodity.frequency)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .padding(.vertical, 4)
+        .padding(.vertical, PriceSpacing.small)
         .accessibilityElement(children: .combine)
     }
 }

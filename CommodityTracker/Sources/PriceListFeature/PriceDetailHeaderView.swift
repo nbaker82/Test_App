@@ -11,30 +11,35 @@ struct PriceDetailHeaderView: View {
     @Environment(\.locale) private var locale
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 4) {
+        VStack(alignment: .leading, spacing: PriceSpacing.small) {
             Text(commodity.unit)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
             if let point {
+                let date = Text(PriceFormatting.date(point.date, frequency: commodity.frequency, locale: locale))
+                    .foregroundStyle(.secondary)
+
                 Text(PriceFormatting.price(point.observation.value, locale: locale))
-                    .font(.largeTitle.weight(.bold).monospacedDigit())
-                HStack(spacing: 8) {
-                    Text(PriceFormatting.date(point.date, frequency: commodity.frequency, locale: locale))
-                        .foregroundStyle(.secondary)
-                    if let change {
-                        Label {
-                            Text(change.fraction, format: .percent.precision(.fractionLength(1)).sign(strategy: .always()))
-                                .monospacedDigit()
-                        } icon: {
-                            Image(systemName: change.isUp ? "arrow.up.right" : "arrow.down.right")
+                    .font(.largeTitle.monospacedDigit())
+                    .bold()
+                // Stacks at large text sizes, where side by side would split the percent mid-number.
+                ViewThatFits(in: .horizontal) {
+                    HStack(spacing: PriceSpacing.medium) {
+                        date
+                        if let change {
+                            PriceChangeLabel(change: change)
                         }
-                        .foregroundStyle(change.isUp ? .green : .red)
+                    }
+                    VStack(alignment: .leading, spacing: PriceSpacing.small) {
+                        date
+                        if let change {
+                            PriceChangeLabel(change: change)
+                        }
                     }
                 }
                 .font(.subheadline)
             }
         }
-        .frame(maxWidth: .infinity, alignment: .leading)
         .accessibilityElement(children: .combine)
     }
 }

@@ -6,7 +6,7 @@ struct SavedPriceLabel: View {
 
     var body: some View {
         Label {
-            Text("Saved \(savedAt, format: .relative(presentation: .named))")
+            Text("Saved \(savedAt, format: .relative(presentation: .named))", bundle: #bundle)
         } icon: {
             Image(systemName: "clock.arrow.circlepath")
         }

@@ -9,6 +9,8 @@ struct AppRootView: View {
             PriceListView(model: model)
         } else {
             ProgressView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.priceScreenBackground)
                 .task(makeModel)
         }
     }
