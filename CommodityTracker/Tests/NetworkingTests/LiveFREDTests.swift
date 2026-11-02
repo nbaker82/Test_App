@@ -28,7 +28,9 @@ struct LiveFREDTests {
 
         #expect(!history.isEmpty)
         #expect(history.map(\.date) == history.map(\.date).sorted())
-        #expect(history.first.map { $0.date >= start } == true)
+        // FRED includes the month containing the start date, so a monthly series can begin before it.
+        let startOfMonth = try #require(Calendar.utc.dateInterval(of: .month, for: start)?.start)
+        #expect(history.first.map { $0.date >= startOfMonth } == true)
     }
 
     @Test func unknownSeriesIsABadRequest() async {
@@ -37,6 +39,14 @@ struct LiveFREDTests {
         } throws: { error in
             guard case PriceServiceError.badRequest(let message?) = error else { return false }
             return !message.isEmpty
+        }
+    }
+
+    @Test func emptyKeyIsUnauthorized() async {
+        let client = FREDClient(apiKey: "")
+
+        await #expect(throws: PriceServiceError.unauthorized) {
+            try await client.latest(seriesID: Commodity.wti.seriesID)
         }
     }
 

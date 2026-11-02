@@ -16,6 +16,7 @@ public enum PriceServiceError: Error, Equatable, Sendable {
     case badRequest(message: String?)
     case decoding
     case noData
+    case unknown
 
     /// Whether a saved price is a reasonable answer to this failure. Failures that
     /// retrying won't fix must stay visible instead of hiding behind old data.
@@ -23,7 +24,7 @@ public enum PriceServiceError: Error, Equatable, Sendable {
         switch self {
         case .offline, .rateLimited, .server:
             true
-        case .unauthorized, .badRequest, .decoding, .noData:
+        case .unauthorized, .badRequest, .decoding, .noData, .unknown:
             false
         }
     }

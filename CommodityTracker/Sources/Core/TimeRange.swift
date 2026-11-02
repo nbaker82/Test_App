@@ -30,17 +30,19 @@ public enum TimeRange: String, CaseIterable, Hashable, Sendable {
     /// The first date in the range, or nil for the full history.
     public func start(endingAt end: Date) -> Date? {
         let calendar = Calendar.utc
-        switch self {
+        let start: Date? = switch self {
         case .oneMonth:
-            return calendar.date(byAdding: .month, value: -1, to: end)
+            calendar.date(byAdding: .month, value: -1, to: end)
         case .sixMonths:
-            return calendar.date(byAdding: .month, value: -6, to: end)
+            calendar.date(byAdding: .month, value: -6, to: end)
         case .oneYear:
-            return calendar.date(byAdding: .year, value: -1, to: end)
+            calendar.date(byAdding: .year, value: -1, to: end)
         case .fiveYears:
-            return calendar.date(byAdding: .year, value: -5, to: end)
+            calendar.date(byAdding: .year, value: -5, to: end)
         case .max:
-            return nil
+            nil
         }
+        // Observations are dated midnight UTC, so a time of day would exclude that day's row.
+        return start.map(calendar.startOfDay(for:))
     }
 }

@@ -8,6 +8,11 @@ FRED commodity prices: WTI crude, corn, wheat and soybeans.
 | `Networking` | `Core` | `FREDClient` |
 | `Repository` | `Core` | `CachingPriceRepository`, `InMemoryPriceCache` |
 | `Persistence` | `Core` | `SwiftDataPriceCache`, `PriceStore` |
+| `PriceListFeature` | `Core`, `Repository` | `PriceListView`, `PriceListModel` |
+
+The app target connects these in `AppDependencies`, the only place that names the concrete types. The feature only sees the `PriceRepository` protocol, so it doesn't know about FRED or SwiftData.
+
+To run the app without a key in a Debug build, add `-useSamplePrices` to the scheme's launch arguments. It shows made-up prices.
 
 Run the tests in UTC and in a zone west of Greenwich, since date handling is the easiest thing to break:
 

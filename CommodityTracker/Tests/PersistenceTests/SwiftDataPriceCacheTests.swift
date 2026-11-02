@@ -139,6 +139,35 @@ private func makeCache() throws -> SwiftDataPriceCache {
         }
     }
 
+    @Test func unreadableStoreIsReplaced() async throws {
+        try await withStoreURL { url in
+            try FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+            try Data("not a database".utf8).write(to: url)
+            #expect(throws: (any Error).self) {
+                try PriceStore.makeContainer(at: url)
+            }
+
+            let cache = SwiftDataPriceCache(modelContainer: try PriceStore.makeContainerResettingIfNeeded(at: url))
+            try await cache.save([observation(2026, 9, "1")], seriesID: "S", at: firstSave)
+
+            let stored = try await cache.load(seriesID: "S")
+            #expect(stored?.observations == [observation(2026, 9, "1")])
+        }
+    }
+
+    @Test func healthyStoreIsKeptWhenResettingIfNeeded() async throws {
+        try await withStoreURL { url in
+            do {
+                let cache = SwiftDataPriceCache(modelContainer: try PriceStore.makeContainer(at: url))
+                try await cache.save([observation(2026, 9, "1")], seriesID: "S", at: firstSave)
+            }
+
+            let reopened = SwiftDataPriceCache(modelContainer: try PriceStore.makeContainerResettingIfNeeded(at: url))
+
+            #expect(try await reopened.load(seriesID: "S") != nil)
+        }
+    }
+
     @Test func savesMergeAcrossReopens() async throws {
         try await withStoreURL { url in
             do {

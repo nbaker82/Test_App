@@ -18,7 +18,7 @@ public struct Sourced<Value: Sendable>: Sendable {
 
 extension Sourced: Equatable where Value: Equatable {}
 
-public struct CachingPriceRepository: Sendable {
+public struct CachingPriceRepository: PriceRepository {
     private let service: any PriceService
     private let cache: any PriceCache
     private let now: @Sendable () -> Date
@@ -53,15 +53,20 @@ public struct CachingPriceRepository: Sendable {
         do {
             let observations = try await service.observations(seriesID: seriesID, start: start)
             await save(observations, seriesID: seriesID)
-            return Sourced(value: observations, source: .live)
+            // FRED also returns the month containing the start date, so filter here
+            // to give the same rows whether they came from the network or the cache.
+            return Sourced(value: Self.observations(observations, from: start), source: .live)
         } catch let error as PriceServiceError where error.allowsStaleFallback {
             guard let cached = await loadCached(seriesID: seriesID) else { throw error }
-            let inRange = cached.observations.filter { observation in
-                start.map { observation.date >= $0 } ?? true
-            }
+            let inRange = Self.observations(cached.observations, from: start)
             guard !inRange.isEmpty else { throw error }
             return Sourced(value: inRange, source: .cached(savedAt: cached.savedAt))
         }
+    }
+
+    private static func observations(_ observations: [PriceObservation], from start: Date?) -> [PriceObservation] {
+        guard let start else { return observations }
+        return observations.filter { $0.date >= start }
     }
 
     /// A failed write shouldn't cost the caller a price the network already delivered.

@@ -138,8 +138,17 @@ private func makeRepository(_ service: StubService, cache: InMemoryPriceCache = 
 
         let result = try await repository.history(for: .corn, range: .oneYear)
 
-        #expect(result == Sourced(value: rows, source: .live))
+        #expect(result == Sourced(value: Array(rows.suffix(2)), source: .live))
         #expect(await service.requestedStarts == [utcDate(2025, 10, 23)])
+    }
+
+    @Test func rowsOutsideTheRangeAreStillSaved() async throws {
+        let cache = InMemoryPriceCache()
+        let repository = makeRepository(StubService(history: .success(rows)), cache: cache)
+
+        _ = try await repository.history(for: .corn, range: .oneYear)
+
+        #expect(await cache.load(seriesID: Commodity.corn.seriesID)?.observations == rows)
     }
 
     @Test func maxRequestsFullHistory() async throws {

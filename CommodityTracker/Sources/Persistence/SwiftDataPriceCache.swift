@@ -9,6 +9,10 @@ public enum PersistenceError: Error, Equatable, Sendable {
 public enum PriceStore {
     private static let schema = Schema([SeriesRecord.self, ObservationRecord.self])
 
+    /// Creating containers at the same moment intermittently crashed the process with a
+    /// segfault in parallel tests, and doing it one at a time stopped that.
+    private static let creationLock = NSLock()
+
     /// A store at `url`, creating its folder if needed. Use a URL in the App Group
     /// container for a store the widget can also read.
     public static func makeContainer(at url: URL) throws -> ModelContainer {
@@ -18,12 +22,29 @@ public enum PriceStore {
         )
         // Explicitly local: CloudKit doesn't allow the unique attributes the records rely on.
         let configuration = ModelConfiguration(schema: schema, url: url, cloudKitDatabase: .none)
-        return try ModelContainer(for: schema, configurations: configuration)
+        return try creationLock.withLock {
+            try ModelContainer(for: schema, configurations: configuration)
+        }
+    }
+
+    /// Opens the store, or deletes and recreates it if it can't be opened, such as after
+    /// a schema change. That's safe because everything in it can be downloaded again.
+    public static func makeContainerResettingIfNeeded(at url: URL) throws -> ModelContainer {
+        do {
+            return try makeContainer(at: url)
+        } catch {
+            for path in [url.path(), url.path() + "-wal", url.path() + "-shm"] {
+                try? FileManager.default.removeItem(atPath: path)
+            }
+            return try makeContainer(at: url)
+        }
     }
 
     public static func makeInMemoryContainer() throws -> ModelContainer {
         let configuration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true, cloudKitDatabase: .none)
-        return try ModelContainer(for: schema, configurations: configuration)
+        return try creationLock.withLock {
+            try ModelContainer(for: schema, configurations: configuration)
+        }
     }
 }
 
