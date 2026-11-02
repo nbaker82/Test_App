@@ -1,0 +1,4 @@
+// Committed defaults. Your key goes in Secrets.xcconfig, which git ignores.
+// The include is optional so the project still builds without one.
+FRED_API_KEY =
+#include? "Secrets.xcconfig"
