@@ -16,7 +16,9 @@ struct PriceFailureView: View {
             Text(error.explanation)
         } actions: {
             if error.isRetryable {
-                Button("Try Again", action: retry)
+                Button(action: retry) {
+                    Text("Try Again", bundle: #bundle)
+                }
             }
         }
     }

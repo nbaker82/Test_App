@@ -133,6 +133,33 @@ private let liveRows = Sourced(value: rows, source: .live)
         #expect(nearest?.observation == day(1, 110))
     }
 
+    @Test func summaryDescribesARise() async {
+        let (model, _) = await makeModel()
+        await model.load()
+
+        #expect(model.chartSummary(locale: Locale(identifier: "en_US")) == "Up 25.0%, from $100.00 to $125.00")
+    }
+
+    @Test func summaryDescribesAFall() async {
+        let (model, _) = await makeModel(history: .success(Sourced(value: [day(0, 200), day(1, 150)], source: .live)))
+        await model.load()
+
+        #expect(model.chartSummary(locale: Locale(identifier: "en_US")) == "Down 25.0%, from $200.00 to $150.00")
+    }
+
+    @Test func summaryOfOnePointIsItsPrice() async {
+        let (model, _) = await makeModel(history: .success(Sourced(value: [day(0, 200)], source: .live)))
+        await model.load()
+
+        #expect(model.chartSummary(locale: Locale(identifier: "en_US")) == "$200.00")
+    }
+
+    @Test func summaryOfNoPointsIsEmpty() async {
+        let (model, _) = await makeModel()
+
+        #expect(model.chartSummary(locale: Locale(identifier: "en_US")).isEmpty)
+    }
+
     @Test func noPointsMeansNoNearestPoint() async {
         let (model, _) = await makeModel()
 

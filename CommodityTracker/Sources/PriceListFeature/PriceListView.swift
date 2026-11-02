@@ -21,11 +21,15 @@ public struct PriceListView: View {
                             PriceRowView(row: row)
                                 .modifier(ZoomTransitionSource(id: row.id, namespace: zoomNamespace))
                         }
+                        .listRowBackground(Color.priceCardBackground)
                     }
+                    .scrollContentBackground(.hidden)
                     .refreshable(action: model.load)
                 }
             }
-            .navigationTitle("Commodities")
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color.priceScreenBackground)
+            .navigationTitle(Text("Commodities", bundle: #bundle))
             .navigationDestination(for: Commodity.self) { commodity in
                 PriceDetailView(model: model.makeDetailModel(for: commodity))
                     .modifier(ZoomTransitionDestination(id: commodity.id, namespace: zoomNamespace))

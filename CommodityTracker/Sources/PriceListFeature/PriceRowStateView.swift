@@ -13,12 +13,13 @@ struct PriceRowStateView: View {
         switch state {
         case .loading:
             ProgressView()
-                .accessibilityLabel("Loading price")
+                .accessibilityLabel(Text("Loading price", bundle: #bundle))
         case .loaded(let result):
             // The row stacks vertically at the largest text sizes, so the price lines up with the name.
-            VStack(alignment: dynamicTypeSize.isAccessibilitySize ? .leading : .trailing, spacing: 2) {
+            VStack(alignment: dynamicTypeSize.isAccessibilitySize ? .leading : .trailing, spacing: PriceSpacing.tight) {
                 Text(PriceFormatting.price(result.value.value, locale: locale))
-                    .font(.title3.weight(.semibold).monospacedDigit())
+                    .font(.title3.monospacedDigit())
+                    .bold()
                 Text(PriceFormatting.date(result.value.date, frequency: frequency, locale: locale))
                     .font(.caption)
                     .foregroundStyle(.secondary)

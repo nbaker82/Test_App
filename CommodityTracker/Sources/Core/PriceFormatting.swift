@@ -8,13 +8,19 @@ public enum PriceFormatting {
 
     /// A chart axis label, with less detail the longer the chart's span:
     /// "Oct 27" up to about two months, "Sep 2026" up to three years, then "2026".
-    public static func axisDate(_ date: Date, span: TimeInterval, locale: Locale = .current) -> String {
+    /// `isCompact` shortens the middle one to "Sep" for when text is too large to fit a year.
+    public static func axisDate(
+        _ date: Date,
+        span: TimeInterval,
+        isCompact: Bool = false,
+        locale: Locale = .current
+    ) -> String {
         let day: TimeInterval = 24 * 60 * 60
         var style = Date.FormatStyle(locale: locale, calendar: .utc, timeZone: .gmt)
         if span <= 62 * day {
             style = style.month(.abbreviated).day()
         } else if span <= 3 * 366 * day {
-            style = style.month(.abbreviated).year()
+            style = isCompact ? style.month(.abbreviated) : style.month(.abbreviated).year()
         } else {
             style = style.year()
         }
