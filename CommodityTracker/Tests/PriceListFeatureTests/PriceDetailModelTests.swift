@@ -150,9 +150,29 @@ private let liveRows = Sourced(value: rows, source: .live)
     @Test func longSeriesIsCappedKeepingBothEnds() {
         let points = ChartPoint.points(from: series, maxCount: 60)
 
-        #expect(points.count == 60)
+        #expect(points.count <= 60)
+        #expect(points.count > 30)
         #expect(points.first?.observation == series.first)
         #expect(points.last?.observation == series.last)
+    }
+
+    @Test func extremesSurviveThinning() {
+        var spiky = (0..<10_000).map { day($0, 50) }
+        spiky[3_333] = day(3_333, 145)
+        spiky[7_777] = day(7_777, -36)
+
+        let values = ChartPoint.points(from: spiky, maxCount: 500).map(\.observation.value)
+
+        #expect(values.contains(145))
+        #expect(values.contains(-36))
+    }
+
+    @Test func flatSeriesDoesNotRepeatPoints() {
+        let flat = (0..<1_000).map { day($0, 5) }
+
+        let dates = ChartPoint.points(from: flat, maxCount: 60).map(\.date)
+
+        #expect(Set(dates).count == dates.count)
     }
 
     @Test func thinnedSeriesStaysInOrderWithoutDuplicates() {

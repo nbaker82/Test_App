@@ -14,6 +14,12 @@ struct PriceChartView: View {
         return last.timeIntervalSince(first)
     }
 
+    /// A label this close to the edge would be clipped, leaving a stray "2" or "Au…".
+    private func isNearTrailingEdge(_ date: Date) -> Bool {
+        guard let last = points.last?.date else { return false }
+        return last.timeIntervalSince(date) < span * 0.12
+    }
+
     var body: some View {
         Chart {
             ForEach(points) { point in
@@ -35,7 +41,7 @@ struct PriceChartView: View {
                 AxisValueLabel {
                     // Formatted here because the default label uses the device's time zone,
                     // which shows Sep 1 UTC as August anywhere west of Greenwich.
-                    if let date = value.as(Date.self) {
+                    if let date = value.as(Date.self), !isNearTrailingEdge(date) {
                         Text(PriceFormatting.axisDate(date, span: span, locale: locale))
                     }
                 }

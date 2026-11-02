@@ -132,14 +132,15 @@ private let cached = Sourced(value: observation, source: .cached(savedAt: Date(t
     }
 
     @Test func sparklineIsThinnedForLongDailySeries() async {
-        let history = (0..<250).map { PriceObservation(date: Date(timeIntervalSince1970: Double($0) * 86_400), value: 1) }
+        let history = (0..<250).map { PriceObservation(date: Date(timeIntervalSince1970: Double($0) * 86_400), value: Decimal($0)) }
         let repository = FakePriceRepository([Commodity.wti.id: .success(live)])
         await repository.setHistory(.success(Sourced(value: history, source: .live)), for: .wti)
         let model = PriceListModel(repository: repository, commodities: [.wti])
 
         await model.load()
 
-        #expect(model.rows.first?.sparkline.count == 60)
+        let count = model.rows.first?.sparkline.count ?? 0
+        #expect(count > 1 && count <= 60)
     }
 
     @Test func sparklineFailureLeavesThePriceAndPreviousLine() async {
