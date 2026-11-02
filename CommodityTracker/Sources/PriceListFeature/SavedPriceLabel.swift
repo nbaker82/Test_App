@@ -11,6 +11,6 @@ struct SavedPriceLabel: View {
             Image(systemName: "clock.arrow.circlepath")
         }
         .font(.caption)
-        .foregroundStyle(.orange)
+        .foregroundStyle(.secondary)
     }
 }

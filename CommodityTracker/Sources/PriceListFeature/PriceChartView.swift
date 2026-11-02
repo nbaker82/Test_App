@@ -24,12 +24,14 @@ struct PriceChartView: View {
         Chart {
             ForEach(points) { point in
                 LineMark(x: .value("Date", point.date), y: .value("Price", point.plotValue))
+                    .foregroundStyle(.tint)
                     .lineStyle(StrokeStyle(lineWidth: 2, lineCap: .round, lineJoin: .round))
             }
             if let selectedPoint {
                 RuleMark(x: .value("Selected date", selectedPoint.date))
                     .foregroundStyle(.secondary)
                 PointMark(x: .value("Date", selectedPoint.date), y: .value("Price", selectedPoint.plotValue))
+                    .foregroundStyle(.tint)
             }
         }
         .chartYScale(domain: .automatic(includesZero: false))

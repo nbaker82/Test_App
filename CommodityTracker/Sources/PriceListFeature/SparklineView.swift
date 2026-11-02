@@ -9,6 +9,7 @@ struct SparklineView: View {
     var body: some View {
         Chart(points) { point in
             LineMark(x: .value("Date", point.date), y: .value("Price", point.plotValue))
+                .foregroundStyle(.tint)
                 .lineStyle(StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round))
         }
         .chartXAxis(.hidden)
